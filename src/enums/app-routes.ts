@@ -1,9 +1,9 @@
-const enum AppRoute {
-  Default = 'default',
-  Start = 'start',
-  Quiz = 'quiz',
-  Results = 'results',
-  NotFound = 'not-found-page',
-}
+export const APP_ROUTE = {
+  Start: 'start',
+  SecondPage: 'second-page',
+  CounterPage: 'counter-page',
+} as const;
 
-export default AppRoute;
+type AppRoute = (typeof APP_ROUTE)[keyof typeof APP_ROUTE] | '404';
+
+export type { AppRoute };
