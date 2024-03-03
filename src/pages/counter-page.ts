@@ -1,6 +1,7 @@
 import { BaseElement } from '../common/base-element';
 import type { ReduxStore } from '../lib/store/types';
 import type { State, Action } from '../store/reducer';
+import { increment, decrement, set } from '../store/actions';
 import styles from './counter-page.module.css';
 
 export default function createCounterPage(store: ReduxStore<State, Action>) {
@@ -11,17 +12,22 @@ export default function createCounterPage(store: ReduxStore<State, Action>) {
   const controlsContainer = new BaseElement('div', [styles.container]);
   const incrementButton = new BaseElement('button', ['button'], { type: 'button' }, '+');
   const decrementButton = new BaseElement('button', ['button'], { type: 'button' }, '-');
+  const resetButton = new BaseElement('button', ['button'], { type: 'button' }, 'Reset');
 
   const { counter } = store.getState();
 
   const counterText = new BaseElement('p', ['counter-text'], {}, `${counter}`);
 
   incrementButton.addListener('click', () => {
-    store.dispatch({ type: 'increment' });
+    store.dispatch(increment());
   });
 
   decrementButton.addListener('click', () => {
-    store.dispatch({ type: 'decrement' });
+    store.dispatch(decrement());
+  });
+
+  resetButton.addListener('click', () => {
+    store.dispatch(set(0));
   });
 
   store.subscribe(() => {
@@ -29,7 +35,7 @@ export default function createCounterPage(store: ReduxStore<State, Action>) {
     counterText.setTextContent(`${counter}`);
   });
 
-  controlsContainer.append(decrementButton, counterText, incrementButton);
+  controlsContainer.append(decrementButton, counterText, incrementButton, resetButton);
 
   counterPage.append(heading, controlsContainer);
 
