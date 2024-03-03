@@ -35,12 +35,10 @@ export class Router {
   }
 
   private changePage(pathName: string) {
-    const route =
-      this.routes.find((route) => route.name === pathName) ??
-      ({
-        name: '404',
-        component: this.notFoundComponent,
-      } satisfies Route);
+    const route = this.routes.find((route) => route.name === pathName) ?? {
+      name: '404',
+      component: this.notFoundComponent,
+    };
 
     this.onHistoryChange(route);
 
